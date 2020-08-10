@@ -21,21 +21,21 @@ class ProductsRepository implements IProductsRepository {
     price,
     quantity,
   }: ICreateProductDTO): Promise<Product> {
-    // TODO
+    return { id: '', order_products: [], name, price, quantity, created_at: new Date(), updated_at: new Date() };
   }
 
   public async findByName(name: string): Promise<Product | undefined> {
-    // TODO
+    return undefined;
   }
 
   public async findAllById(products: IFindProducts[]): Promise<Product[]> {
-    // TODO
+    return [{ id: '', order_products: [], name, price: 0, quantity: 0, created_at: new Date(), updated_at: new Date() }];
   }
 
   public async updateQuantity(
     products: IUpdateProductsQuantityDTO[],
   ): Promise<Product[]> {
-    // TODO
+    return [{ id: '', order_products: [], name, price: 0, quantity: 0, created_at: new Date(), updated_at: new Date() }];
   }
 }
 
