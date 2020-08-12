@@ -6,28 +6,40 @@ import {
   JoinColumn,
   PrimaryGeneratedColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 import Order from '@modules/orders/infra/typeorm/entities/Order';
 import Product from '@modules/products/infra/typeorm/entities/Product';
 
+@Entity()
 class OrdersProducts {
+
+  @PrimaryGeneratedColumn()
   id: string;
 
+  @ManyToOne(type => Order, order => order.order_products)
   order: Order;
 
+  @ManyToOne(type => Product, product => product.order_products)
   product: Product;
 
+  @JoinColumn()
   product_id: string;
 
+  @JoinColumn()
   order_id: string;
 
+  @Column()
   price: number;
 
+  @Column()
   quantity: number;
 
+  @CreateDateColumn()
   created_at: Date;
 
+  @UpdateDateColumn()
   updated_at: Date;
 }
 

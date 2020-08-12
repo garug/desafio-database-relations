@@ -18,10 +18,10 @@ class Order {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column()
+  @ManyToOne(type => Customer)
   customer: Customer;
 
-  @Column()
+  @OneToMany(type => OrdersProducts, orderProduct => orderProduct.order, { cascade: ['insert'] })
   order_products: OrdersProducts[];
 
   @CreateDateColumn()
