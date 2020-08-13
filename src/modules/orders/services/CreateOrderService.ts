@@ -35,6 +35,17 @@ class CreateOrderService {
     if (savedProducts.length !== products.length) {
       throw new AppError('Some of product has invalid id');
     }
+
+    const insufficientQuantity = savedProducts.filter(savedProduct => {
+      const orderProduct = products.find(e => e.id === savedProduct.id);
+      return (orderProduct?.quantity || 0) > savedProduct.quantity
+    });
+
+    console.log(insufficientQuantity);
+    if (insufficientQuantity.length > 0) {
+      throw new AppError(`Insufficient quantity for this products: ${insufficientQuantity.map(e => e.name)}`);
+    }
+
     const finalProducts = products.map(pr => {
       const savedProduct = savedProducts.find(svPr => svPr.id === pr.id);
       return {
@@ -44,12 +55,12 @@ class CreateOrderService {
       }
     });
 
-    const order = {
+    await this.productsRepository.updateQuantity(products);
+    return this.ordersRepository.create({
       customer,
       products: finalProducts
-    }
-    const savedOrder = await this.ordersRepository.create(order);
-    return savedOrder;
+    });
+
   }
 }
 

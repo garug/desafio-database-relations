@@ -12,16 +12,16 @@ import {
 import Customer from '@modules/customers/infra/typeorm/entities/Customer';
 import OrdersProducts from '@modules/orders/infra/typeorm/entities/OrdersProducts';
 
-@Entity()
+@Entity('orders')
 class Order {
 
   @PrimaryGeneratedColumn()
   id: string;
 
-  @ManyToOne(type => Customer)
+  @ManyToOne(type => Customer, { eager: true })
   customer: Customer;
 
-  @OneToMany(type => OrdersProducts, orderProduct => orderProduct.order, { cascade: ['insert'] })
+  @OneToMany(type => OrdersProducts, orderProduct => orderProduct.order, { cascade: ['insert'], eager: true })
   order_products: OrdersProducts[];
 
   @CreateDateColumn()

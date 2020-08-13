@@ -29,7 +29,7 @@ export class InitApplication1597105062410 implements MigrationInterface {
 
 
     customerTable = new Table({
-        name: 'customer',
+        name: 'customers',
         columns: [
             ...this.creationalColumnOptions,
             {
@@ -44,7 +44,7 @@ export class InitApplication1597105062410 implements MigrationInterface {
     })
 
     productTable = new Table({
-        name: 'product',
+        name: 'products',
         columns: [
             ...this.creationalColumnOptions,
             {
@@ -66,7 +66,7 @@ export class InitApplication1597105062410 implements MigrationInterface {
     });
 
     orderTable = new Table({
-        name: 'order',
+        name: 'orders',
         columns: [
             ...this.creationalColumnOptions,
             {
@@ -110,27 +110,6 @@ export class InitApplication1597105062410 implements MigrationInterface {
         await queryRunner.createTable(this.productTable);
         await queryRunner.createTable(this.orderTable);
         await queryRunner.createTable(this.orderProductTable);
-        await Promise.all([queryRunner.createForeignKey(this.orderTable, new TableForeignKey({
-            name: 'order-customer',
-            columnNames: ['customerId'],
-            referencedColumnNames: ['id'],
-            referencedTableName: this.customerTable.name,
-            onDelete: 'SET NULL'
-        })),
-        queryRunner.createForeignKey(this.orderProductTable, new TableForeignKey({
-            name: 'orders-products-order',
-            columnNames: ['orderId'],
-            referencedColumnNames: ['id'],
-            referencedTableName: this.orderTable.name,
-            onDelete: 'SET NULL'
-        })),
-        queryRunner.createForeignKey(this.orderProductTable, new TableForeignKey({
-            name: 'orders-products-product',
-            columnNames: ['productId'],
-            referencedColumnNames: ['id'],
-            referencedTableName: this.productTable.name,
-            onDelete: 'SET NULL'
-        }))]);
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
